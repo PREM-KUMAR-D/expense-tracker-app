@@ -1,34 +1,81 @@
-import React, { Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import classes from "./SignUpForm.module.css";
 import { useLocation } from "react-router";
 
-const SignUpForm = (props) => {
-  
+const SignUpForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const location = useLocation();
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
+  const [verificationToken, setVerificationToken] = useState("");
+  const [isLogin, setIsLogin] = useState(useLocation().pathname === "/login");
 
-  console.log(JSON.stringify(location.pathname));
-  const [isLogin,setIsLogin] = useState(location.pathname==="/login"?true:false);
+  const handleClick = () => setIsLogin((prev) => !prev);
 
-
-  const handleClick = (props)=>{
-    setIsLogin((prev)=>!prev);
-  }
-
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value, 
+      [name]: value,
     }));
   };
 
+  const handleVerifyEmail = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You need to be logged in to verify your email.");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            requestType: "VERIFY_EMAIL",
+            idToken: token,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error.message || "Failed to send verification email.");
+
+      setIsVerificationSent(true);
+      alert("Verification email sent! Please check your inbox.");
+    } catch (error) {
+      console.error("Error sending verification email:", error.message);
+    }
+  };
+
+  const handleTokenVerification = async () => {
+    try {
+      const res = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            oobCode: verificationToken,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error.message || "Verification failed.");
+
+      setIsEmailVerified(true);
+      alert("Email verification completed!");
+    } catch (error) {
+      console.error("Error during token verification:", error.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,12 +85,9 @@ const SignUpForm = (props) => {
       return;
     }
 
-    let url;
-    if (isLogin) {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`;
-    } else {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`;
-    }
+    let url = isLogin
+      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`
+      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`;
 
     try {
       const res = await fetch(url, {
@@ -53,36 +97,26 @@ const SignUpForm = (props) => {
           password: formData.password,
           returnSecureToken: true,
         }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error.message || "Authentication failed!");
 
-      if (!res.ok) {
-        throw new Error(data.error.message || "Authentication failed!");
-      }
-
-     
       localStorage.setItem("token", data.idToken);
       localStorage.setItem("email", formData.email);
-      alert(isLogin?"Login Completed":"Signup complete");
+      alert(isLogin ? "Login Completed" : "Signup complete");
       setIsLogin(true);
-
-     
     } catch (err) {
-     
       console.error("Authentication error:", err.message);
-    } 
+    }
   };
 
   return (
     <Fragment>
       <div className={classes.wrapper}>
-
         <div className={classes.container}>
-          <h2>{isLogin? "Login": "Sign Up"}</h2>
+          <h2>{isLogin ? "Login" : "Sign Up"}</h2>
           <form onSubmit={handleSubmit}>
             <div className={classes.input}>
               <label htmlFor="email">Email: </label>
@@ -95,6 +129,34 @@ const SignUpForm = (props) => {
                 onChange={handleInputChange}
                 required
               />
+              <button
+                type="button"
+                className={classes.verifyButton}
+                onClick={handleVerifyEmail}
+                disabled={isVerificationSent}
+              >
+                {isVerificationSent ? "Verification Sent" : "Verify Email"}
+              </button>
+              {isEmailVerified && <span className={classes.verifiedTick}>✔️</span>}
+            </div>
+
+            <div className={classes.input}>
+              <label htmlFor="token">Verification Token: </label>
+              <input
+                type="text"
+                id="token"
+                placeholder="Enter your token"
+                value={verificationToken}
+                onChange={(e) => setVerificationToken(e.target.value)}
+              />
+              <button
+                type="button"
+                className={classes.tokenButton}
+                onClick={handleTokenVerification}
+                disabled={!verificationToken}
+              >
+                Verify Token
+              </button>
             </div>
 
             <div className={classes.input}>
@@ -119,16 +181,16 @@ const SignUpForm = (props) => {
                 placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                required
+                required={!isLogin}
               />
             </div>
 
             <button type="submit" className={classes.formBtn}>
-              {!isLogin?"Sign Up" : "Login"}
+              {!isLogin ? "Sign Up" : "Login"}
             </button>
 
             <button type="button" className={classes.formBtn} onClick={handleClick}>
-              {!isLogin?"Have an account? Login":"Create an Account"}
+              {!isLogin ? "Have an account? Login" : "Create an Account"}
             </button>
           </form>
         </div>

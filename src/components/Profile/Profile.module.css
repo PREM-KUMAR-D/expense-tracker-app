@@ -119,3 +119,8 @@ a {
     border-color: #007bff;
     outline: none;
 }
+
+.logOutBtn{
+    border: 1px solid blues;
+    background-color: white;
+}

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Profile.module.css";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaGithub } from "react-icons/fa";
 import { TbWorld } from "react-icons/tb";
 
 const Profile = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const check = location.pathname === "/profile";
     const [isUpdateProfile, setIsUpdateProfile] = useState(check ? false : true);
     const [formData, setFormData] = useState({
@@ -15,10 +16,10 @@ const Profile = () => {
 
     const token = localStorage.getItem("token");
 
-    // Fetch profile data on component mount
+    
     useEffect(() => {
         const fetchProfileData = async () => {
-            if (!token) return; // Ensure token is available
+            if (!token) return; 
 
             try {
                 const res = await fetch(
@@ -52,6 +53,13 @@ const Profile = () => {
 
         fetchProfileData();
     }, [token]);
+
+    const logoutHandler = ()=>{
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        navigate('/login');
+    }
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -102,6 +110,8 @@ const Profile = () => {
                                 : "Winners never quit, Quitters never win"}
                         </h1>
                     </div>
+                    {token && <button type="button"  className={classes.logOutBtn}onClick={logoutHandler}> Logout</button>}
+
                     <div className={classes.profile}>
                         {!isUpdateProfile ? (
                             <p>
@@ -146,7 +156,7 @@ const Profile = () => {
                                     id="fullName"
                                     name="fullName"
                                     placeholder="Enter your full name"
-                                    value={formData.fullName} // Pre-fill data
+                                    value={formData.fullName} 
                                     onChange={handleChange}
                                 />
                             </div>
@@ -159,7 +169,7 @@ const Profile = () => {
                                     id="profilePhoto"
                                     name="profilePhoto"
                                     placeholder="Enter the URL of your profile photo"
-                                    value={formData.profilePhoto} // Pre-fill data
+                                    value={formData.profilePhoto} 
                                     onChange={handleChange}
                                 />
                             </div>
