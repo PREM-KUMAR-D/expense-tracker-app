@@ -4,6 +4,7 @@ import './App.css';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import Profile from './components/Profile/Profile';
 import ResetPassword from './components/ResetPassword/ResetPassword';
+import Expenses from './components/Expenses/Expenses';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/update-profile' element={<Profile />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/expenses' element={<Expenses/>} />
       </Routes>
     </Router>
 

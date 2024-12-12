@@ -1,0 +1,139 @@
+/* Wrapper for the entire component */
+.wrapper {
+    width: 80%;
+    max-width: 100vw;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff; /* White background for the expense tracker */
+    
+  }
+  
+  /* Toggle button styling */
+  .toggleBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .toggleBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Form styling */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  input,
+  select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  button.submitBtn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button.submitBtn:hover {
+    background-color: #218838;
+  }
+  
+  /* Expense list styling */
+  .expenseList {
+    margin-top: 30px;
+  }
+  
+  .expenseList h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: #f8f9fa;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  li strong {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  button.editBtn,
+  button.deleteBtn {
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+  }
+  
+  button.editBtn {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  button.editBtn:hover {
+    background-color: #e0a800;
+  }
+  
+  button.deleteBtn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  button.deleteBtn:hover {
+    background-color: #c82333;
+  }
+  
+  @media (max-width: 600px) {
+    .wrapper {
+      padding: 15px;
+      margin: 10px;
+    }
+  
+    .formGroup {
+      gap: 10px;
+    }
+  }
