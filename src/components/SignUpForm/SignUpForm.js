@@ -140,24 +140,26 @@ const SignUpForm = () => {
               {isEmailVerified && <span className={classes.verifiedTick}>✔️</span>}
             </div>
 
-            <div className={classes.input}>
-              <label htmlFor="token">Verification Token: </label>
-              <input
-                type="text"
-                id="token"
-                placeholder="Enter your token"
-                value={verificationToken}
-                onChange={(e) => setVerificationToken(e.target.value)}
-              />
-              <button
-                type="button"
-                className={classes.tokenButton}
-                onClick={handleTokenVerification}
-                disabled={!verificationToken}
-              >
-                Verify Token
-              </button>
-            </div>
+            {
+              isLogin && <div className={classes.input}>
+                <label htmlFor="token">Verification Token: </label>
+                <input
+                  type="text"
+                  id="token"
+                  placeholder="Enter your token"
+                  value={verificationToken}
+                  onChange={(e) => setVerificationToken(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={classes.tokenButton}
+                  onClick={handleTokenVerification}
+                  disabled={!verificationToken}
+                >
+                  Verify Token
+                </button>
+              </div>
+            }
 
             <div className={classes.input}>
               <label htmlFor="password">Password: </label>

@@ -1,0 +1,80 @@
+.mainContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+.contactContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-bottom: 1px solid black;
+    
+    background-color: #fff;
+    max-width: 900px;
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.contactDetails h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #444;
+}
+
+.closeButton {
+    background-color: white;
+    border: 1px solid #ed1212;
+    border-radius: 8%;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #ed1212;
+    padding: 3px;
+    transition: color 0.3s ease;
+}
+
+.closeButton:hover {
+    color: #333;
+}
+
+.form {
+    display: flex;
+    flex-direction: row; 
+    gap: 1rem; 
+    align-items: center;
+    width: 100%; 
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+    flex: 1; 
+    gap: 0.5rem; 
+}
+
+.formGroup label {
+    font-weight: bold;
+    white-space: nowrap; 
+}
+
+.formGroup input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1; 
+    transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus {
+    border-color: #007bff;
+    outline: none;
+}
