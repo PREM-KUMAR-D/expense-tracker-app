@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import classes from "./SignUpForm.module.css";
 import { useLocation } from "react-router";
+import { authActions } from "../../store/index";
+import { useDispatch} from "react-redux";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +15,9 @@ const SignUpForm = () => {
   const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [verificationToken, setVerificationToken] = useState("");
   const [isLogin, setIsLogin] = useState(useLocation().pathname === "/login");
+
+  const dispatchFunc = useDispatch();
+  
 
   const handleClick = () => setIsLogin((prev) => !prev);
 
@@ -72,6 +77,7 @@ const SignUpForm = () => {
 
       setIsEmailVerified(true);
       alert("Email verification completed!");
+      dispatchFunc(authActions.login());
     } catch (error) {
       console.error("Error during token verification:", error.message);
     }

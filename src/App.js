@@ -6,7 +6,14 @@ import Profile from './components/Profile/Profile';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Expenses from './components/Expenses/Expenses';
 
+import { useSelector } from 'react-redux';
+
 function App() {
+
+  
+  const isAuthenticated = useSelector((state)=>state.auth.isAuthenticated);
+
+
   return (
 
     <Router>
@@ -17,7 +24,7 @@ function App() {
         <Route path='/update-profile' element={<Profile />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/reset-password' element={<ResetPassword />} />
-        <Route path='/expenses' element={<Expenses/>} />
+        <Route path='/expenses' element={<Expenses/>} /> 
       </Routes>
     </Router>
 
