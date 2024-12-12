@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import classes from "./SignUpForm.module.css";
 import { useLocation } from "react-router";
 
@@ -113,7 +113,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <Fragment>
+    
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <h2>{isLogin ? "Login" : "Sign Up"}</h2>
@@ -140,8 +140,8 @@ const SignUpForm = () => {
               {isEmailVerified && <span className={classes.verifiedTick}>✔️</span>}
             </div>
 
-            {
-              isLogin && <div className={classes.input}>
+            {isLogin && (
+              <div className={classes.input}>
                 <label htmlFor="token">Verification Token: </label>
                 <input
                   type="text"
@@ -159,7 +159,7 @@ const SignUpForm = () => {
                   Verify Token
                 </button>
               </div>
-            }
+            )}
 
             <div className={classes.input}>
               <label htmlFor="password">Password: </label>
@@ -194,10 +194,18 @@ const SignUpForm = () => {
             <button type="button" className={classes.formBtn} onClick={handleClick}>
               {!isLogin ? "Have an account? Login" : "Create an Account"}
             </button>
+
+            {isLogin && <button
+              type="button"
+              className={classes.formBtn}
+              onClick={() => window.open('/reset-password', '_blank')}
+            >
+              Forgot Password?
+            </button>}
           </form>
         </div>
       </div>
-    </Fragment>
+    
   );
 };
 
