@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import classes from "./SignUpForm.module.css";
+import { useLocation } from "react-router";
 
 const SignUpForm = (props) => {
   
@@ -8,7 +9,11 @@ const SignUpForm = (props) => {
     password: "",
     confirmPassword: "",
   });
-  const [isLogin,setIsLogin] = useState(false);
+
+  const location = useLocation();
+
+  console.log(JSON.stringify(location.pathname));
+  const [isLogin,setIsLogin] = useState(location.pathname==="/login"?true:false);
 
 
   const handleClick = (props)=>{
@@ -74,56 +79,59 @@ const SignUpForm = (props) => {
 
   return (
     <Fragment>
-      <div className={classes.container}>
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
-          <div className={classes.input}>
-            <label htmlFor="email">Email: </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+      <div className={classes.wrapper}>
 
-          <div className={classes.input}>
-            <label htmlFor="password">Password: </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+        <div className={classes.container}>
+          <h2>{isLogin? "Login": "Sign Up"}</h2>
+          <form onSubmit={handleSubmit}>
+            <div className={classes.input}>
+              <label htmlFor="email">Email: </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-          <div className={classes.input}>
-            <label htmlFor="confirmPassword">Confirm Password: </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+            <div className={classes.input}>
+              <label htmlFor="password">Password: </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-          <button type="submit" className={classes.formBtn}>
-            {!isLogin?"Sign Up" : "Login"}
-          </button>
+            <div className={classes.input}>
+              <label htmlFor="confirmPassword">Confirm Password: </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-          <button type="button" className={classes.formBtn} onClick={handleClick}>
-            {!isLogin?"Have an account? Login":"Create an Account"}
-          </button>
-        </form>
+            <button type="submit" className={classes.formBtn}>
+              {!isLogin?"Sign Up" : "Login"}
+            </button>
+
+            <button type="button" className={classes.formBtn} onClick={handleClick}>
+              {!isLogin?"Have an account? Login":"Create an Account"}
+            </button>
+          </form>
+        </div>
       </div>
     </Fragment>
   );

@@ -1,0 +1,121 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid black;
+    background-color: #f9f9f9;
+}
+
+.title h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background-color: rgba(214, 85, 85, 0.171);
+}
+
+.profile p {
+    margin: 0;
+}
+
+.mainContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+.contactContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-bottom: 1px solid black;
+    
+    background-color: #fff;
+    max-width: 900px;
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.contactDetails h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #444;
+}
+
+.closeButton {
+    background-color: white;
+    border: 1px solid #ed1212;
+    border-radius: 8%;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #ed1212;
+    padding: 3px;
+    transition: color 0.3s ease;
+}
+
+.closeButton:hover {
+    color: #333;
+}
+.form {
+    display: flex;
+    flex-direction: row; /* Row layout for the entire form */
+    gap: 1rem; /* Space between form groups */
+    align-items: center; /* Center align vertically */
+    width: 100%; /* Full width */
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: row; /* Row layout for label and input */
+    align-items: center; /* Align label and input vertically */
+    flex: 1; /* Equal space for each form group */
+    gap: 0.5rem; /* Space between label and input */
+}
+
+.formGroup label {
+    font-weight: bold;
+    white-space: nowrap; /* Prevent label text wrapping */
+}
+
+.formGroup input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1; /* Make the input take available space */
+    transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus {
+    border-color: #007bff;
+    outline: none;
+}
