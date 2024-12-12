@@ -1,6 +1,6 @@
 
 import './App.css';
-import SignUpForm from './container/SignUpForm/SignUpForm';
+import SignUpForm from './components/SignUpForm/SignUpForm';
 
 function App() {
   return (
