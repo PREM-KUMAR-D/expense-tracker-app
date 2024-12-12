@@ -1,63 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Profile.module.css";
 import { Link, useLocation } from "react-router";
 import { FaGithub } from "react-icons/fa";
 import { TbWorld } from "react-icons/tb";
 
-
-
-
-
-
-const Profile = (props) => {
+const Profile = () => {
     const location = useLocation();
     const check = location.pathname === "/profile";
     const [isUpdateProfile, setIsUpdateProfile] = useState(check ? false : true);
-    const [formData,setFormData] = useState({
-        fullname:"",
-        photoUrl:"",
-    })
+    const [formData, setFormData] = useState({
+        fullName: "",
+        profilePhoto: "",
+    });
 
     const token = localStorage.getItem("token");
 
-    const handleFormSubmit = async(event)=>{
+    // Fetch profile data on component mount
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            if (!token) return; // Ensure token is available
+
+            try {
+                const res = await fetch(
+                    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            idToken: token,
+                        }),
+                    }
+                );
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error.message || "Failed to fetch profile data");
+                }
+
+                const userInfo = data.users[0];
+                setFormData({
+                    fullName: userInfo.displayName || "",
+                    profilePhoto: userInfo.photoUrl || "",
+                });
+            } catch (error) {
+                console.error("Error fetching profile data:", error);
+            }
+        };
+
+        fetchProfileData();
+    }, [token]);
+
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`,{
-                method: "POST",
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({
-                    idToken: token,
-                    displayName: event.target.fullName.value,
-                    photoUrl: event.target.profilePhoto.value,
-                })
-            });
+            const res = await fetch(
+                `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIRE_BASE_API_KEY}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: token,
+                        displayName: formData.fullName,
+                        photoUrl: formData.profilePhoto,
+                    }),
+                }
+            );
 
             const data = await res.json();
-            
-            if(!res.ok){
-                throw new Error(res.body);
+
+            if (!res.ok) {
+                throw new Error(data.error.message || "Failed to update profile");
             }
 
-            console.log("The result is ", JSON.stringify(data));
-
-
+            console.log("Profile updated successfully:", data);
         } catch (error) {
-            console.log(error);
+            console.error("Error updating profile:", error);
         }
+    };
 
-    }
-
-    const handleChange= (event)=>{
-        const key = event.target.name;
-        const value = event.target.value;
-        setFormData((prevData)=>{
-            return {...prevData, [key]: value}
-        })
-    }
-
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
     return (
         <div className={classes.container}>
@@ -97,35 +129,42 @@ const Profile = (props) => {
                             <div className={classes.contactDetails}>
                                 <h2>Contact Details</h2>
                             </div>
-                            <button className={classes.closeButton} onClick={() => setIsUpdateProfile(false)}>
+                            <button
+                                className={classes.closeButton}
+                                onClick={() => setIsUpdateProfile(false)}
+                            >
                                 Cancel
                             </button>
                         </div>
                         <form className={classes.form} onSubmit={handleFormSubmit}>
                             <div className={classes.formGroup}>
-                                <label htmlFor="fullName"><FaGithub/> Full Name:</label>
-                                <input 
-                                    type="text" 
-                                    id="fullName" 
-                                    name="fullName" 
+                                <label htmlFor="fullName">
+                                    <FaGithub /> Full Name:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    name="fullName"
                                     placeholder="Enter your full name"
+                                    value={formData.fullName} // Pre-fill data
                                     onChange={handleChange}
-                                    />
+                                />
                             </div>
                             <div className={classes.formGroup}>
-                                <label htmlFor="profilePhoto"> <TbWorld/> Profile Photo URL:</label>
-                                <input 
-                                    type="url" 
-                                    id="profilePhoto" 
-                                    name="profilePhoto" 
+                                <label htmlFor="profilePhoto">
+                                    <TbWorld /> Profile Photo URL:
+                                </label>
+                                <input
+                                    type="url"
+                                    id="profilePhoto"
+                                    name="profilePhoto"
                                     placeholder="Enter the URL of your profile photo"
+                                    value={formData.profilePhoto} // Pre-fill data
                                     onChange={handleChange}
-                                    />
+                                />
                             </div>
-
                             <button type="submit">Submit</button>
                         </form>
-
                     </div>
                 )}
             </main>

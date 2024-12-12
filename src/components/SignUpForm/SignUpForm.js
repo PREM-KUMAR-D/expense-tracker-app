@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState} from "react";
 import classes from "./SignUpForm.module.css";
 import { useLocation } from "react-router";
 
