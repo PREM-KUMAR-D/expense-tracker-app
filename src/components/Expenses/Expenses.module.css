@@ -137,3 +137,55 @@
       gap: 10px;
     }
   }
+
+
+  .premiumBtn {
+    background-color: gold;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .premiumBtn:hover {
+    background-color: #ffdf00;
+    transform: scale(1.05);
+  }
+  
+  .premiumBtn:active {
+    background-color: #e6c200;
+    transform: scale(1);
+  }
+
+  .premiumFeatures {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .downloadBtn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .downloadBtn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .downloadBtn:active {
+    background-color: #39843d;
+    transform: scale(1);
+  }
