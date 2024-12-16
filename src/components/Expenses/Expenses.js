@@ -1,6 +1,6 @@
 import React, { useState,useCallback,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { expenseActions } from "../../store";
+import { expenseActions } from "../../store/expense-slice";
 import classes from "./Expenses.module.css";
 
 const ExpenseTracker = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./SignUpForm.module.css";
 import { useLocation } from "react-router";
-import { authActions } from "../../store/index";
+import { authActions } from "../../store/auth-slice";
 import { useDispatch} from "react-redux";
 
 const SignUpForm = () => {
